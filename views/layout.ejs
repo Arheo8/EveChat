@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css" />
+    <title>EveChat</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        section {
+            position: relative;
+            min-height: 100vh;
+            background-color: #f8e250;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        section .container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            background: #fff;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        section .container .user {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        
+        section .container .user .imgBx {
+            position: relative;
+            width: 50%;
+            height: 100%;
+            background: #ff0;
+            transition: 0.5s;
+        }
+        
+        section .container .user .mecl .messages {
+            position: relative;
+            width: 100%;
+            height: 75%;
+            margin: 2%;
+            overflow-y: auto;
+        }
+        
+        section .container .user .mecl .messages li {
+            width: 75%;
+            overflow-wrap: break-word;
+        }
+        
+        section .container .user .mecl .msg-inp {
+            text-align: center;
+        }
+        
+        section .container .user .mecl .msg-inp .txt {
+            width: 78%;
+        }
+        
+        section .container .user .mecl .msg-inp button {
+            width: 15%;
+            margin-left: 2%;
+            margin-bottom: 1%;
+        }
+        
+        section .container .user .imgBx img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        section .container .user .formBx {
+            position: relative;
+            width: 50%;
+            height: 100%;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            transition: 0.5s;
+        }
+        
+        section .container .user .formBx form h2 {
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        section .container .user .formBx form input {
+            position: relative;
+            width: 100%;
+            padding: 10px;
+            background: #f5f5f5;
+            color: #333;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            margin: 8px 0;
+            font-size: 14px;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+        
+        section .container .user .formBx form input[type='submit'] {
+            max-width: 100px;
+            background: #677eff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: 0.5s;
+        }
+        
+        section .container .user .formBx form .signup {
+            position: relative;
+            margin-top: 20px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: #555;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        
+        section .container .user .formBx form .signup a {
+            font-weight: 600;
+            text-decoration: none;
+            color: #677eff;
+        }
+        
+        section .container .signupBx {
+            pointer-events: none;
+        }
+        
+        section .container.active .signupBx {
+            pointer-events: initial;
+        }
+        
+        section .container .signupBx .formBx {
+            left: 100%;
+        }
+        
+        section .container.active .signupBx .formBx {
+            left: 0;
+        }
+        
+        section .container .signupBx .imgBx {
+            left: -100%;
+        }
+        
+        section .container.active .signupBx .imgBx {
+            left: 0%;
+        }
+        
+        section .container .signinBx .formBx {
+            left: 0%;
+        }
+        
+        section .container.active .signinBx .formBx {
+            left: 100%;
+        }
+        
+        section .container .signinBx .imgBx {
+            left: 0%;
+        }
+        
+        section .container.active .signinBx .imgBx {
+            left: -100%;
+        }
+        
+        @media (max-width: 991px) {
+            section .container {
+                max-width: 400px;
+            }
+            section .container .imgBx {
+                display: none;
+            }
+            section .container .user .formBx {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <%- body %>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+
+</html>
