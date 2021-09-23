@@ -1,98 +1,46 @@
-const express = require('express');
-const expressLayouts = require('express-ejs-layouts');
-const app = express();
-const http = require('http').Server(app);
-const dotenv = require('dotenv');
-const io = require('socket.io')(http);
-const mongoose = require('mongoose');
-const passport = require('passport');
-const flash = require('connect-flash');
-const session = require('express-session');
-
-dotenv.config();
-
-// Passport Config
-require('./config/passport')(passport);
-
-// DB Config
-const db = process.env.MongoURI;
-
-// Connect to MongoDB
-mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true ,useUnifiedTopology: true}
-  )
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
-// EJS
-app.use(expressLayouts); 
-app.set('view engine', 'ejs');
-
-// Express body parser
-app.use(express.urlencoded({ extended: true }));
-
-// Express session
-app.use(
-  session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-  })
-);
-
-// Passport middleware 
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Connect flash
-app.use(flash());
-
-// Global variables
-app.use((req, res, next) => {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  next();
-});
-
-const { ensureAuthenticated, forwardAuthenticated } = require("./config/auth");
-
-// Welcome Page
-app.get("/", forwardAuthenticated, (req, res) => res.render("register"));
+<section>
+    <div class="container">
+        <div class="user">
+            <div class="container m-0 p-0 mecl">
+                <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 justify-content-between">
+                    <h2 style="color: white;">EveChat</h2>
+                    <p id="user_name" style="visibility: hidden;">
+                        <%= user.name %>
+                    </p>
+                    <a class="btn btn-outline-warning my-2 my-sm-0" href="/users/logout">Logout</a>
+                </nav>
+                <ul class="messages"></ul>
+                <div class="msg-inp">
+                    <form action="/dashboard" method="POST" id="chatForm">
+                        <input class="txt" autocomplete="off" autofocus="on" placeholder="type your message here..." /><button>Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</section>
+<script src="../../socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script>
+    var socket = io.connect('http://localhost:5000');
 
 
-app.get('/dashboard', ensureAuthenticated, (req, res) => {
-    res.render('dashboard',{
-        user: req.user,
-      });
-});
- 
-app.post('/dashboard', (req, res) => {
-    console.log(req.body);  
-    res.send("recieved your request!");
-  });
-
-io.sockets.on('connection', (socket) => {
-    socket.on('username', (username) => {
-        socket.username = username;
-        io.emit('is_online', '🔵 <i>' + socket.username + ' joined the chat.</i>');
+    $('form').submit(function(e) {
+        e.preventDefault();
+        socket.emit('chat_message', $('.txt').val());
+        $('.txt').val('');
+        return false;
     });
 
-    socket.on('disconnect', (username) => {
-        io.emit('is_online', '🔴 <i>' + socket.username + ' left the chat..</i>');
-    })
-
-    socket.on('chat_message', (message) => {
-        io.emit('chat_message','<strong>' + socket.username + '</strong>: ' + message);
+    socket.on('chat_message', function(msg) {
+        $('.messages').append($('<li>').html(msg));
     });
-});
 
-// Routes
-app.use('/users', require('./routes/users.js'));
-
-const port = process.env.PORT || 5000;
-
-const server = http.listen(port, function() {
-    console.log(`listening on Port :${port}`);
-});
+    socket.on('is_online', function(username) {
+        $('.messages').append($('<li>').html(username));
+    });
+    var User = document.getElementById("user_name").innerHTML
+    socket.emit('username', User);
+</script>
