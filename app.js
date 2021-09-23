@@ -67,7 +67,7 @@ app.get('/dashboard', ensureAuthenticated, (req, res) => {
         user: req.user,
       });
 });
-
+ 
 app.post('/dashboard', (req, res) => {
     console.log(req.body);  
     res.send("recieved your request!");
