@@ -68,11 +68,6 @@ app.get('/dashboard', ensureAuthenticated, (req, res) => {
       });
 });
 
-app.post('/dashboard', (req, res) => {
-    console.log(req.body);  
-    res.send("recieved your request!");
-  });
-
 io.sockets.on('connection', (socket) => {
     socket.on('username', (username) => {
         socket.username = username;
