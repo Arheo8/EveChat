@@ -15,7 +15,7 @@ dotenv.config();
 require('./config/passport')(passport);
 
 // DB Config
-const db = process.env.MongoURI;
+const db = "mongodb+srv://Arheo_ec:QCbuRzvzK6Nc2ZZ@cluster0.c6loa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 // Connect to MongoDB
 mongoose
@@ -90,4 +90,4 @@ const port = process.env.PORT || 5000;
 
 const server = http.listen(port, function() {
     console.log(`listening on Port :${port}`);
-}); 
+});
